@@ -1,45 +1,204 @@
 <?php
 
-$turmas = [
-    // Cada turma tem um número fixo de vagas de horários
-    // Cada vaga tem um horário e um dia da semana
-    // Não existe choque de horário entre as vagas de uma turma
+//Etapa 1: Representação do Indivíduo
 
+function individuo($turmas) {
+    $individuo = [];
+
+    foreach ($turmas as $turma => $info) {
+        $vagas_horarias = $info['vagas'];
+        $disciplinas = $info['disciplinas'];
+        $horarios_alocados = array_fill(0, count($vagas_horarias), []);
+
+        foreach ($disciplinas as $disciplina) {
+            $docentes = $disciplina['docentes'];
+            $encontros_semanais = $disciplina['encontrosSemanais'];
+            $encontros_mesmo_dia = $disciplina['encontrosMesmoDia'];
+
+            foreach ($docentes as $docente) {
+                $docente_escolhido = $docente;
+                $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'];
+                $dias_consecutivos = $docente_escolhido['diasConsecutivos'];
+
+                for ($i = 0; $i < $encontros_semanais; $i++) {
+                    $vaga_horaria_aleatoria = $vagas_horarias[array_rand($vagas_horarias)];
+                    $dia = $vaga_horaria_aleatoria['dia'];
+
+                    if ($encontros_mesmo_dia) {
+                        $indice_dia = array_search($vaga_horaria_aleatoria, $vagas_horarias);
+                        for ($j = 1; $j < $encontros_semanais; $j++) {
+                            $vaga_horaria_aleatoria = $vagas_horarias[$indice_dia + $j];
+                        }
+                    }
+
+                    $horarios_disponiveis = encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos);
+
+                    if ($horarios_disponiveis !== null && count($horarios_disponiveis) > 0) {
+                        $horario_escolhido = $horarios_disponiveis[array_rand($horarios_disponiveis)];
+                        $horarios_alocados[array_search($vaga_horaria_aleatoria, $vagas_horarias)][] = [
+                            'disciplina' => $disciplina['nome'],
+                            'docente' => $docente_escolhido['nome'],
+                            'horario' => $horario_escolhido
+                        ];
+                    }
+                }
+            }
+        }
+
+        $individuo[$turma] = $horarios_alocados;
+    }
+
+    return $individuo;
+}
+
+function encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos) {
+    $horarios = [
+        '18:30',
+        '20:10',
+        '21:00',
+        '21:50'
+    ];
+
+    if (count($horarios) < $dias_consecutivos) {
+        return null;
+    }
+
+    for ($i = 0; $i < count($horarios) - $dias_consecutivos + 1; $i++) {
+        $horarios_disponiveis = array_slice($horarios, $i, $dias_consecutivos);
+
+        if (!horario_ocupado($horarios_alocados, $dia, $horarios_disponiveis, $dias_consecutivos, $dias_indisponiveis)) {
+            return $horarios_disponiveis;
+        }
+    }
+
+    return null; // Se não encontrar um horário disponível, retorna null
+}
+
+function horario_ocupado($horarios_alocados, $dia, $horarios_disponiveis, $dias_consecutivos, $dias_indisponiveis) {
+    for ($i = 0; $i < count($horarios_alocados) - $dias_consecutivos + 1; $i++) {
+        $horarios_ocupados = array_slice($horarios_alocados, $i, $dias_consecutivos);
+
+        foreach ($horarios_ocupados as $horarios_turma) {
+            foreach ($horarios_turma as $horario_disciplina) {
+                if ($horario_disciplina['horario'] === $horarios_disponiveis && in_array($dia, $dias_indisponiveis)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+function avaliar_aptidao($individuo, $turmas) {
+    // Vamos atribuir uma penalidade para cada violação de restrição no indivíduo
+    $penalidade_total = 0;
+
+    foreach ($turmas as $turma => $info) {
+        $vagas = $info['vagas'];
+        $disciplinas = $info['disciplinas'];
+        $horarios_alocados = $individuo[$turma];
+
+        foreach ($disciplinas as $disciplina) {
+            $docentes = $disciplina['docentes'];
+            $encontros_semanais = $disciplina['encontrosSemanais'];
+            $encontros_mesmo_dia = $disciplina['encontrosMesmoDia'];
+
+            foreach ($docentes as $docente) {
+                $docente_escolhido = $docente;
+                $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'];
+                $dias_consecutivos = $docente_escolhido['diasConsecutivos'];
+
+                $dias_alocados = [];
+
+                for ($i = 0; $i < $encontros_semanais; $i++) {
+                    $dia_aleatorio = $vagas[array_rand($vagas)];
+                    $dia = $dia_aleatorio['dia'];
+
+                    if ($encontros_mesmo_dia) {
+                        $indice_dia = array_search($dia_aleatorio, $vagas);
+                        for ($j = 1; $j < $encontros_semanais; $j++) {
+                            $dia_aleatorio = $vagas[$indice_dia + $j];
+                        }
+                    }
+
+                    $horarios_disponiveis = encontrar_horario_disponivel($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos);
+
+                    if ($horarios_disponiveis !== null && count($horarios_disponiveis) > 0) {
+                        $horario_escolhido = $horarios_disponiveis[array_rand($horarios_disponiveis)];
+                        $horarios_alocados[array_search($dia_aleatorio, $vagas)][] = [
+                            'disciplina' => $disciplina['nome'],
+                            'docente' => $docente_escolhido['nome'],
+                            'horario' => $horario_escolhido
+                        ];
+                        $dias_alocados[] = $dia;
+                    } else {
+                        // Se não encontrar horário disponível, aplicar penalidade
+                        $penalidade_total += 1000;
+                    }
+                }
+
+                // Penalidade para dias consecutivos
+                if (count($dias_alocados) >= 2) {
+                    for ($i = 0; $i < count($dias_alocados) - 1; $i++) {
+                        if (date('N', strtotime($dias_alocados[$i + 1])) - date('N', strtotime($dias_alocados[$i])) <= 1) {
+                            $penalidade_total += 500;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $penalidade_total;
+}
+
+function selecionar_melhor_individuo($populacao, $turmas) {
+    $melhor_individuo = null;
+    $melhor_aptidao = PHP_INT_MAX;
+
+    foreach ($populacao as $individuo) {
+        $aptidao = avaliar_aptidao($individuo, $turmas);
+        if ($aptidao < $melhor_aptidao) {
+            $melhor_aptidao = $aptidao;
+            $melhor_individuo = $individuo;
+        }
+    }
+
+    return $melhor_individuo;
+}
+
+$turmas = [
     //1º PERIODO
     "Turma 1" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
         ],
-        // Cada turma tem um conjunto de disciplinas
-        // Cada disciplina tem um número de encontros semanais
-        // Algumas disciplinas não podem ter mais de um encontro por dia
-        // Algumas disciplinas devem ter todos os encontros no mesmo dia
-        // Cada disciplina tem um ou mais docentes alocados
-        // O algoritmo deve considerar restrições de horários dos docentes
-        // Alguns docentes não podem lecionar em dias específicos da semana
-        // Alguns docentes devem ter suas aulas concentradas em 2 ou 3 dias consecutivos
-        // Cada docente pode lecionar um conjunto limitado de disciplinas
-        // Quanto menos dias consecutivos ficar cada docente, melhor é a solução
-        // As restrições precisam ser satisfeitas
+        
         "disciplinas" => [
             [
                 "nome" => "Cálculo pra Computação I",
@@ -113,22 +272,27 @@ $turmas = [
     "Turma 2" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -206,22 +370,27 @@ $turmas = [
     "Turma 3" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -312,22 +481,27 @@ $turmas = [
     "Turma 4" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -405,22 +579,27 @@ $turmas = [
     "Turma 5" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -498,22 +677,27 @@ $turmas = [
     "Turma 6" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -591,22 +775,27 @@ $turmas = [
     "Turma 7" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -686,22 +875,27 @@ $turmas = [
             ["dia" => "Segunda", "horario" => "14:00"],
             ["dia" => "Segunda", "horario" => "18:00"],
             ["dia" => "Segunda", "horario" => "18:30"],
+            ["dia" => "Segunda", "horario" => "19:20"],
             ["dia" => "Segunda", "horario" => "20:10"],
             ["dia" => "Segunda", "horario" => "21:00"],
             ["dia" => "Segunda", "horario" => "21:50"],
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
             ["dia" => "Sexta", "horario" => "18:30"],
+            ["dia" => "Sexta", "horario" => "19:20"],
             ["dia" => "Sexta", "horario" => "20:10"],
             ["dia" => "Sexta", "horario" => "21:00"],
             ["dia" => "Sexta", "horario" => "21:50"],
@@ -779,14 +973,17 @@ $turmas = [
     "Turma 9" => [
         "vagas" => [
             ["dia" => "Terça", "horario" => "18:30"],
+            ["dia" => "Terça", "horario" => "19:20"],
             ["dia" => "Terça", "horario" => "20:10"],
             ["dia" => "Terça", "horario" => "21:00"],
             ["dia" => "Terça", "horario" => "21:50"],
             ["dia" => "Quarta", "horario" => "18:30"],
+            ["dia" => "Quarta", "horario" => "19:20"],
             ["dia" => "Quarta", "horario" => "20:10"],
             ["dia" => "Quarta", "horario" => "21:00"],
             ["dia" => "Quarta", "horario" => "21:50"],
             ["dia" => "Quinta", "horario" => "18:30"],
+            ["dia" => "Quinta", "horario" => "19:20"],
             ["dia" => "Quinta", "horario" => "20:10"],
             ["dia" => "Quinta", "horario" => "21:00"],
             ["dia" => "Quinta", "horario" => "21:50"],
@@ -820,3 +1017,9 @@ $turmas = [
         ]
     ],
 ];
+
+
+$individuo = individuo($turmas);
+print_r($individuo);
+
+?>
