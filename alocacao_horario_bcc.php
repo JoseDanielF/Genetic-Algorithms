@@ -45,7 +45,7 @@ function individuo($turmas) {
                     }
 
                     // Encontra um horário disponível para alocar a disciplina
-                    $horarios_disponiveis = encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos);
+                    $horarios_disponiveis = encontrar_horario_disponivel($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos);
 
                     // Se encontrar um horário disponível, aloca a disciplina para o docente escolhido na vaga horária escolhida
                     if ($horarios_disponiveis !== null && count($horarios_disponiveis) > 0) {
@@ -69,10 +69,11 @@ function individuo($turmas) {
 }
 
 // Função que encontra um horário disponível para alocar a disciplina e o docente em questão
-function encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos) {
+function encontrar_horario_disponivel($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos) {
     // Lista de horários disponíveis
     $horarios = [
         '18:30',
+        '19:20',
         '20:10',
         '21:00',
         '21:50'
@@ -224,6 +225,20 @@ function selecionar_melhor_individuo($populacao, $turmas) {
     // Retorna o melhor indivíduo encontrado na população
     return $melhor_individuo;
 }
+
+// Etapa 3: População Inicial
+
+function criar_populacao_inicial($turmas, $tamanho_populacao) {
+    $populacao = [];
+
+    for ($i = 0; $i < $tamanho_populacao; $i++) {
+        $individuo = individuo($turmas);
+        $populacao[] = $individuo;
+    }
+
+    return $populacao;
+}
+
 
 
 $turmas = [
@@ -1076,8 +1091,8 @@ $turmas = [
     ],
 ];
 
-
-$individuo = individuo($turmas);
-print_r($individuo);
+$tamanho_populacao = 50;
+$populacao = criar_populacao_inicial($turmas, $tamanho_populacao);
+print_r($populacao);
 
 ?>
