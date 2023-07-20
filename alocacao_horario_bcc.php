@@ -2,28 +2,41 @@
 
 //Etapa 1: Representação do Indivíduo
 
+// Função que gera um indivíduo (alocação) para cada turma com base nas preferências e disponibilidades dos docentes e disciplinas
 function individuo($turmas) {
+    // O indivíduo é um array associativo onde a chave é a turma e o valor é uma matriz representando a alocação das disciplinas e docentes
     $individuo = [];
 
+    // Loop pelas turmas
     foreach ($turmas as $turma => $info) {
+        // Recupera informações sobre as vagas horárias e disciplinas para a turma atual
         $vagas_horarias = $info['vagas'];
         $disciplinas = $info['disciplinas'];
+
+        // Cria uma matriz para representar os horários alocados inicialmente vazia
         $horarios_alocados = array_fill(0, count($vagas_horarias), []);
 
+        // Loop pelas disciplinas da turma
         foreach ($disciplinas as $disciplina) {
+            // Recupera informações sobre os docentes da disciplina atual
             $docentes = $disciplina['docentes'];
             $encontros_semanais = $disciplina['encontrosSemanais'];
             $encontros_mesmo_dia = $disciplina['encontrosMesmoDia'];
 
+            // Loop pelos docentes da disciplina atual
             foreach ($docentes as $docente) {
+                // Seleciona um docente
                 $docente_escolhido = $docente;
                 $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'];
                 $dias_consecutivos = $docente_escolhido['diasConsecutivos'];
 
+                // Aloca os encontros semanais da disciplina para o docente escolhido
                 for ($i = 0; $i < $encontros_semanais; $i++) {
+                    // Seleciona uma vaga horária aleatória
                     $vaga_horaria_aleatoria = $vagas_horarias[array_rand($vagas_horarias)];
                     $dia = $vaga_horaria_aleatoria['dia'];
 
+                    // Se a disciplina tiver encontros no mesmo dia, encontra a próxima vaga horária no mesmo dia
                     if ($encontros_mesmo_dia) {
                         $indice_dia = array_search($vaga_horaria_aleatoria, $vagas_horarias);
                         for ($j = 1; $j < $encontros_semanais; $j++) {
@@ -31,8 +44,10 @@ function individuo($turmas) {
                         }
                     }
 
+                    // Encontra um horário disponível para alocar a disciplina
                     $horarios_disponiveis = encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos);
 
+                    // Se encontrar um horário disponível, aloca a disciplina para o docente escolhido na vaga horária escolhida
                     if ($horarios_disponiveis !== null && count($horarios_disponiveis) > 0) {
                         $horario_escolhido = $horarios_disponiveis[array_rand($horarios_disponiveis)];
                         $horarios_alocados[array_search($vaga_horaria_aleatoria, $vagas_horarias)][] = [
@@ -45,13 +60,17 @@ function individuo($turmas) {
             }
         }
 
+        // Adiciona a alocação da turma atual ao indivíduo
         $individuo[$turma] = $horarios_alocados;
     }
 
+    // Retorna o indivíduo contendo as alocações de todas as turmas
     return $individuo;
 }
 
+// Função que encontra um horário disponível para alocar a disciplina e o docente em questão
 function encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos) {
+    // Lista de horários disponíveis
     $horarios = [
         '18:30',
         '20:10',
@@ -59,62 +78,88 @@ function encontrar_horario_disponivel_unico($horarios_alocados, $dia, $dias_indi
         '21:50'
     ];
 
+    // Se não houver horários suficientes para alocar os dias consecutivos, retorna null
     if (count($horarios) < $dias_consecutivos) {
         return null;
     }
 
+    // Loop para encontrar um conjunto de horários consecutivos disponíveis para alocar a disciplina
     for ($i = 0; $i < count($horarios) - $dias_consecutivos + 1; $i++) {
+        // Obtém um conjunto de horários consecutivos
         $horarios_disponiveis = array_slice($horarios, $i, $dias_consecutivos);
 
+        // Verifica se o conjunto de horários consecutivos não está ocupado
         if (!horario_ocupado($horarios_alocados, $dia, $horarios_disponiveis, $dias_consecutivos, $dias_indisponiveis)) {
+            // Se estiver disponível, retorna o conjunto de horários
             return $horarios_disponiveis;
         }
     }
 
-    return null; // Se não encontrar um horário disponível, retorna null
+    // Se não encontrar um horário disponível, retorna null
+    return null;
 }
 
+// Função que verifica se um conjunto de horários consecutivos está ocupado
 function horario_ocupado($horarios_alocados, $dia, $horarios_disponiveis, $dias_consecutivos, $dias_indisponiveis) {
+    // Loop para verificar os horários ocupados em busca de conflitos com o conjunto de horários consecutivos
     for ($i = 0; $i < count($horarios_alocados) - $dias_consecutivos + 1; $i++) {
+        // Obtém um conjunto de horários consecutivos alocados
         $horarios_ocupados = array_slice($horarios_alocados, $i, $dias_consecutivos);
 
+        // Verifica se há conflito de horário com o conjunto de horários consecutivos e os dias indisponíveis
         foreach ($horarios_ocupados as $horarios_turma) {
             foreach ($horarios_turma as $horario_disciplina) {
                 if ($horario_disciplina['horario'] === $horarios_disponiveis && in_array($dia, $dias_indisponiveis)) {
+                    // Se houver conflito, retorna verdadeiro (horário ocupado)
                     return true;
                 }
             }
         }
     }
 
+    // Se não houver conflitos, retorna falso (horário disponível)
     return false;
 }
 
+// Etapa 2: Função de Aptidão
+
+
+// Função que avalia a aptidão de um indivíduo, aplicando penalidades às alocações que não atendem às restrições
 function avaliar_aptidao($individuo, $turmas) {
-    // Vamos atribuir uma penalidade para cada violação de restrição no indivíduo
+    // Variável para armazenar a penalidade total
     $penalidade_total = 0;
 
+    // Loop pelas turmas
     foreach ($turmas as $turma => $info) {
+        // Recupera informações sobre as vagas horárias, disciplinas e horários alocados para a turma atual
         $vagas = $info['vagas'];
         $disciplinas = $info['disciplinas'];
         $horarios_alocados = $individuo[$turma];
 
+        // Loop pelas disciplinas da turma
         foreach ($disciplinas as $disciplina) {
+            // Recupera informações sobre os docentes da disciplina atual
             $docentes = $disciplina['docentes'];
             $encontros_semanais = $disciplina['encontrosSemanais'];
             $encontros_mesmo_dia = $disciplina['encontrosMesmoDia'];
 
+            // Loop pelos docentes da disciplina atual
             foreach ($docentes as $docente) {
+                // Seleciona um docente
                 $docente_escolhido = $docente;
                 $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'];
                 $dias_consecutivos = $docente_escolhido['diasConsecutivos'];
 
+                // Variável para armazenar os dias alocados
                 $dias_alocados = [];
 
+                // Aloca os encontros semanais da disciplina para o docente escolhido
                 for ($i = 0; $i < $encontros_semanais; $i++) {
+                    // Seleciona um dia aleatório da semana
                     $dia_aleatorio = $vagas[array_rand($vagas)];
                     $dia = $dia_aleatorio['dia'];
 
+                    // Se a disciplina tiver encontros no mesmo dia, encontra o próximo dia da semana
                     if ($encontros_mesmo_dia) {
                         $indice_dia = array_search($dia_aleatorio, $vagas);
                         for ($j = 1; $j < $encontros_semanais; $j++) {
@@ -122,8 +167,10 @@ function avaliar_aptidao($individuo, $turmas) {
                         }
                     }
 
+                    // Encontra um horário disponível para alocar a disciplina
                     $horarios_disponiveis = encontrar_horario_disponivel($horarios_alocados, $dia, $dias_indisponiveis, $dias_consecutivos);
 
+                    // Se encontrar um horário disponível, aloca a disciplina para o docente escolhido na vaga horária escolhida
                     if ($horarios_disponiveis !== null && count($horarios_disponiveis) > 0) {
                         $horario_escolhido = $horarios_disponiveis[array_rand($horarios_disponiveis)];
                         $horarios_alocados[array_search($dia_aleatorio, $vagas)][] = [
@@ -133,7 +180,7 @@ function avaliar_aptidao($individuo, $turmas) {
                         ];
                         $dias_alocados[] = $dia;
                     } else {
-                        // Se não encontrar horário disponível, aplicar penalidade
+                        // Se não encontrar horário disponível, aplica uma penalidade de 1000
                         $penalidade_total += 1000;
                     }
                 }
@@ -142,6 +189,7 @@ function avaliar_aptidao($individuo, $turmas) {
                 if (count($dias_alocados) >= 2) {
                     for ($i = 0; $i < count($dias_alocados) - 1; $i++) {
                         if (date('N', strtotime($dias_alocados[$i + 1])) - date('N', strtotime($dias_alocados[$i])) <= 1) {
+                            // Se houver aulas consecutivas em dias próximos, aplica uma penalidade de 500
                             $penalidade_total += 500;
                         }
                     }
@@ -150,23 +198,33 @@ function avaliar_aptidao($individuo, $turmas) {
         }
     }
 
+    // Retorna a penalidade total do indivíduo (quanto menor, melhor é a alocação)
     return $penalidade_total;
 }
 
+// Função que seleciona o melhor indivíduo (alocação) dentro de uma população de indivíduos
 function selecionar_melhor_individuo($populacao, $turmas) {
+    // Inicializa a variável que armazenará o melhor indivíduo e a melhor aptidão encontrada
     $melhor_individuo = null;
     $melhor_aptidao = PHP_INT_MAX;
 
+    // Loop por todos os indivíduos da população
     foreach ($populacao as $individuo) {
+        // Avalia a aptidão do indivíduo atual
         $aptidao = avaliar_aptidao($individuo, $turmas);
+
+        // Se a aptidão do indivíduo atual for melhor do que a melhor aptidão encontrada até o momento
+        // atualiza a melhor aptidão e o melhor indivíduo
         if ($aptidao < $melhor_aptidao) {
             $melhor_aptidao = $aptidao;
             $melhor_individuo = $individuo;
         }
     }
 
+    // Retorna o melhor indivíduo encontrado na população
     return $melhor_individuo;
 }
+
 
 $turmas = [
     //1º PERIODO
