@@ -768,50 +768,70 @@ $turmas = [
 
 //Etapa 1: Representação do Indivíduo
 
-// Função que gera um indivíduo (alocação) para cada turma com base nas preferências e disponibilidades dos docentes e disciplinas
+// Função para gerar um indivíduo na população.
 function individuo($turmas) {
+    // Inicializa a variável que armazena o indivíduo (a alocação de horários para todas as turmas).
     $individuo = [];
+    // Inicializa a variável que armazena os horários ocupados por cada docente.
     $horarios_docentes = [];
 
+    // Loop por cada turma.
     foreach ($turmas as $turma => $info) {
+        // Obtém as vagas de horários e as disciplinas da turma atual.
         $vagas_horarios = $info['vagas'];
         $disciplinas = $info['disciplinas'];
 
+        // Inicializa a variável que armazena os horários alocados para a turma atual.
         $horarios_alocados = [];
+        // Inicializa a variável que armazena o último horário alocado para cada dia da semana.
         $ultimo_horario_alocado = [];
+        // Obtém uma lista de todos os dias da semana que têm horários disponíveis.
         $dias = array_unique(array_column($vagas_horarios, 'dia'));
 
+        // Inicializa os horários alocados e o último horário alocado para cada dia.
         foreach($dias as $dia) {
             $horarios_alocados[$dia] = [];
             $ultimo_horario_alocado[$dia] = null;
         }
 
+        // Loop por cada disciplina.
         foreach ($disciplinas as $disciplina) {
+            // Verifica se a disciplina tem docentes.
             if (isset($disciplina['docentes'])) {
                 $docentes = $disciplina['docentes'];
                 $encontros_semanais = $disciplina['encontrosSemanais'];
         
+                // Loop por cada docente.
                 foreach ($docentes as $docente) {
+                    // Obtém as informações do docente.
                     $docente_escolhido = $docente;
                     $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'] ?? []; 
                     $encontrosPorDia = $docente_escolhido['encontrosPorDia'];
                     $aulas_docente_semana = 0;
 
+                    // Loop até que o docente seja alocado para o número necessário de encontros semanais.
                     for ($i = 0; $i < $encontros_semanais; $i++) {
+                        // Loop por cada dia da semana.
                         foreach($dias as $dia) {
+                            // Verifica se o dia atual não é um dia indisponível para o docente e se o docente ainda não foi alocado para o máximo de encontros por dia.
                             if (!in_array($dia, $dias_indisponiveis) && count($horarios_alocados[$dia]) < $encontrosPorDia) {
+                                // Procura por um horário disponível para alocar o docente.
                                 $horario_disponivel = encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia, $ultimo_horario_alocado, $docente_escolhido['nome'], $horarios_docentes);
 
+                                // Verifica se um horário disponível foi encontrado e se o docente ainda não foi alocado para o número necessário de encontros semanais.
                                 if ($horario_disponivel !== null && $aulas_docente_semana < $encontros_semanais) {
+                                    // Adiciona o horário à lista de horários alocados para o dia atual.
                                     $horarios_alocados[$dia][] = [
                                         'disciplina' => $disciplina['nome'],
                                         'docente' => $docente_escolhido['nome'],
                                         'horario' => $horario_disponivel,
                                     ];
+                                    // Atualiza o último horário alocado para o dia atual.
                                     $ultimo_horario_alocado[$dia] = $horario_disponivel;
+                                    // Incrementa o contador de aulas do docente na semana.
                                     $aulas_docente_semana++;
 
-                                    // Adiciona este horário aos horários ocupados do docente
+                                    // Adiciona o horário à lista de horários ocupados do docente.
                                     if (!isset($horarios_docentes[$docente_escolhido['nome']])) {
                                         $horarios_docentes[$docente_escolhido['nome']] = [];
                                     }
@@ -826,44 +846,62 @@ function individuo($turmas) {
                 }
             }
         }
+        // Adiciona a alocação de horários da turma atual ao indivíduo.
         $individuo[$turma] = $horarios_alocados;
     }
 
+    // Retorna o indivíduo após todas as turmas terem sido processadas.
     return $individuo;
 }
+//
 
-
-
+// Função para verificar se todas as disciplinas estão alocadas em algum horário
 function todas_disciplinas_alocadas($individuo, $turmas) {
-    // Extrair todas as disciplinas
+    // Inicializa um array para armazenar todas as disciplinas das turmas
     $todas_disciplinas = [];
+
+    // Loop pelas turmas
     foreach ($turmas as $turma) {
+        // Loop pelas disciplinas de cada turma
         foreach ($turma['disciplinas'] as $disciplina) {
+            // Adiciona o nome da disciplina ao array de todas as disciplinas
             $todas_disciplinas[] = $disciplina['nome'];
         }
     }
-    // Verificar se todas as disciplinas estão no indivíduo
+
+    // Loop pelos horários alocados para cada turma no indivíduo
     foreach ($individuo as $turma) {
+        // Loop pelos dias em cada turma
         foreach ($turma as $dia) {
+            // Loop pelas aulas em cada dia
             foreach ($dia as $aula) {
+                // Se a disciplina da aula atual está no array de todas as disciplinas
                 if (($key = array_search($aula['disciplina'], $todas_disciplinas)) !== false) {
+                    // Remove a disciplina do array de todas as disciplinas
                     unset($todas_disciplinas[$key]);
                 }
             }
         }
     }
+
+    // Se o array de todas as disciplinas está vazio, então todas as disciplinas foram alocadas
     return count($todas_disciplinas) === 0;
 }
+//
 
-// Função que encontra um horário disponível para alocar a disciplina e o docente em questão
+
+// Função para encontrar um horário disponível para alocar uma disciplina e um docente em particular
 function encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia, $ultimo_horario_alocado, $docente_escolhido, $horarios_docentes)
 {
-    // Loop pelos horários disponíveis no dia
+    // Loop através dos horários disponíveis no dia
     foreach ($vagas_horarios as $vaga) {
+        // Se o dia do horário disponível é o mesmo que o dia desejado
+        // e o horário disponível é maior que o último horário alocado (ou nenhum horário foi alocado ainda nesse dia)
         if ($vaga['dia'] === $dia && (!isset($ultimo_horario_alocado[$dia]) || $vaga['horario'] > $ultimo_horario_alocado[$dia])) {
-            // Verifica se o horário já está ocupado
+            // Verifica se o horário já está ocupado por uma disciplina ou docente
             if (!horario_ocupado($horarios_alocados, $dia, $vaga['horario'])) {
                 // Verifica se o docente não está ocupado neste horário
+                // Se o docente não está ocupado neste dia e horário, retorna o horário disponível
                 if (!isset($horarios_docentes[$docente_escolhido]) || !isset($horarios_docentes[$docente_escolhido][$dia]) || !in_array($vaga['horario'], $horarios_docentes[$docente_escolhido][$dia])) {
                     return $vaga['horario'];
                 }
@@ -871,20 +909,29 @@ function encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia,
         }
     }
 
+    // Se nenhum horário disponível for encontrado, retorna null
     return null;
 }
+//
 
-// Função que verifica se um horário está ocupado por uma disciplina ou docente em particular
+// Função que verifica se um horário específico em um dia específico já está ocupado por alguma disciplina.
 function horario_ocupado($horarios_alocados, $dia, $horario)
 {
     if (isset($horarios_alocados[$dia])) {
+        // Se existem horários alocados para o dia fornecido
+
         foreach ($horarios_alocados[$dia] as $alocacao) {
+            // Loop por todas as alocações para o dia em questão
+
             if ($alocacao['horario'] == $horario) {
-                return true;
+                // Se o horário da alocação atual é igual ao horário que esta sendo verificado
+
+                return true;  // Então o horário está ocupado, e a função retorna true
             }
         }
     }
 
+    // Se o horário não estava ocupado (ou não havia horários alocados para o dia fornecido), a função retorna false
     return false;
 }
 //
@@ -892,55 +939,60 @@ function horario_ocupado($horarios_alocados, $dia, $horario)
 // Etapa 2: Função de Aptidão e //Etapa 5: Aplicação das Restrições (Apos aplicação das restrições)
 function avaliar_aptidao($individuo, $turmas)
 {
+    // Inicializa o contador total de conflitos
     $total_conflitos = 0;
+
+    // Inicializa arrays para armazenar a contagem de aulas por disciplina e por professor por dia
     $aulas_por_disciplina = [];
     $aulas_por_professor_por_dia = [];
 
     // Loop pelos horários alocados de cada turma
     foreach ($individuo as $turma => $horarios_alocados) {
+
         // Loop pelos horários alocados em cada dia
         foreach ($horarios_alocados as $dia => $alocacoes) {
+
             // Cria um array para armazenar as aulas alocadas para cada horário
             $aulas_por_horario = [];
+
             // Loop pelas alocações de horários
             foreach ($alocacoes as $alocacao) {
-                if (isset($alocacao['horario'])) {
-                    $horario = $alocacao['horario'];
-                } else {
-                    $horario = null;
-                }
+                $horario = $alocacao['horario'] ?? null;
+
                 // Se já existe uma aula alocada para o horário, incrementa o total de conflitos
                 if (isset($aulas_por_horario[$horario])) {
                     $total_conflitos++;
                 }
+
                 // Adiciona a alocação ao array de aulas por horário
                 $aulas_por_horario[$horario][] = $alocacao;
 
-                // Contabiliza aulas por disciplina
-                if (!isset($aulas_por_disciplina[$turma][$alocacao['disciplina']])) {
-                    $aulas_por_disciplina[$turma][$alocacao['disciplina']] = 0;
+                // Adiciona um conflito se o docente está indisponível no dia e horário alocado
+                foreach ($turmas[$turma]['disciplinas'] as $disciplina) {
+                    if ($disciplina['nome'] == $alocacao['disciplina']) {
+                        foreach ($disciplina['docentes'] as $docente) {
+                            if ($docente['nome'] == $alocacao['docente'] && in_array($dia, $docente['diasIndisponiveis'])) {
+                                $total_conflitos++;
+                            }
+                        }
+                    }
                 }
-                $aulas_por_disciplina[$turma][$alocacao['disciplina']]++;
 
-                // Contabiliza aulas por professor por dia
-                if (!isset($aulas_por_professor_por_dia[$alocacao['docente']])) {
-                    $aulas_por_professor_por_dia[$alocacao['docente']] = [];
-                }
-                if (!isset($aulas_por_professor_por_dia[$alocacao['docente']][$dia])) {
-                    $aulas_por_professor_por_dia[$alocacao['docente']][$dia] = 0;
-                }
-                $aulas_por_professor_por_dia[$alocacao['docente']][$dia]++;
+                // Incrementa a contagem de aulas por disciplina
+                $aulas_por_disciplina[$turma][$alocacao['disciplina']] = ($aulas_por_disciplina[$turma][$alocacao['disciplina']] ?? 0) + 1;
+                
+                // Incrementa a contagem de aulas por professor por dia
+                $aulas_por_professor_por_dia[$alocacao['docente']][$dia] = ($aulas_por_professor_por_dia[$alocacao['docente']][$dia] ?? 0) + 1;
             }
         }
     }
 
-    // Verifica se todas as disciplinas de cada turma foram alocadas
+    // Verifica se todas as disciplinas de cada turma foram alocadas o número correto de vezes
     foreach ($turmas as $turma => $info) {
         foreach ($info['disciplinas'] as $disciplina) {
-            if (!isset($aulas_por_disciplina[$turma][$disciplina['nome']])) {
-                $total_conflitos++;
-            } else if ($aulas_por_disciplina[$turma][$disciplina['nome']] < $disciplina['encontrosSemanais']) {
-                $total_conflitos += $disciplina['encontrosSemanais'] - $aulas_por_disciplina[$turma][$disciplina['nome']];
+            $contagem = $aulas_por_disciplina[$turma][$disciplina['nome']] ?? 0;
+            if ($contagem < $disciplina['encontrosSemanais']) {
+                $total_conflitos += $disciplina['encontrosSemanais'] - $contagem;
             }
         }
     }
@@ -958,23 +1010,25 @@ function avaliar_aptidao($individuo, $turmas)
     // Retorna o total de conflitos
     return $total_conflitos;
 }
-
 //
 
 // Função que seleciona o melhor indivíduo (alocação) dentro de uma população de indivíduos
 function selecionar_melhor_individuo($populacao, $turmas)
 {
-    // Inicializa a variável que armazenará o melhor indivíduo e a melhor aptidão encontrada
+    // A função selecionar_melhor_individuo seleciona o indivíduo mais apto (ou melhor) de uma população.
+    // Calcula a aptidão de cada indivíduo na população e selecionando o que tem a melhor (ou seja, menor) aptidão.
+
+    // Inicializa a variável que armazenará o melhor indivíduo e a melhor aptidão encontrada com valores nulos e PHP_INT_MAX respectivamente
     $melhor_individuo = null;
     $melhor_aptidao = PHP_INT_MAX;
 
     // Loop por todos os indivíduos da população
     foreach ($populacao as $individuo) {
-        // Avalia a aptidão do indivíduo atual
+        // Avalia a aptidão do indivíduo atual usando a função avaliar_aptidao definida anteriormente
         $aptidao = avaliar_aptidao($individuo, $turmas);
 
-        // Se a aptidão do indivíduo atual for melhor do que a melhor aptidão encontrada até o momento
-        // atualiza a melhor aptidão e o melhor indivíduo
+        // Se a aptidão do indivíduo atual for melhor (ou seja, menor, já que estamos tentando minimizar o número de conflitos) do que a melhor aptidão encontrada até o momento,
+        // então atualiza a melhor aptidão e o melhor indivíduo
         if ($aptidao < $melhor_aptidao) {
             $melhor_aptidao = $aptidao;
             $melhor_individuo = $individuo;
@@ -987,30 +1041,45 @@ function selecionar_melhor_individuo($populacao, $turmas)
 //
 
 // Etapa 3: População Inicial
+// Função que cria a população inicial
 function criar_populacao_inicial($turmas, $tamanho_populacao)
 {
+    // A função criar_populacao_inicial é usada para gerar a população inicial para o algoritmo genético.
+    // Essa população inicial é essencialmente um conjunto de possíveis soluções para o problema, 
+    // onde cada solução é um indivíduo na população.
+
+    // Inicializa um array vazio para armazenar a população
     $populacao = [];
 
+    // Loop pelo número especificado de vezes para criar indivíduos
     for ($i = 0; $i < $tamanho_populacao; $i++) {
+        // Cria um novo indivíduo usando a função individuo
         $individuo = individuo($turmas);
+        // Adiciona o indivíduo à população
         $populacao[] = $individuo;
     }
 
+    // Retorna a população completa
     return $populacao;
 }
 //
 
 // Etapa 4: Operadores Genéticos
-
-// Seleção por torneio: seleciona k indivíduos aleatórios da população e retorna o melhor entre eles
+// Função que realiza a seleção por torneio de indivíduos da população
 function selecao_torneio($populacao, $k, $turmas)
 {
+    // A função selecao_torneio realiza um processo de seleção chamado seleção por torneio.
+    // Nesse processo, um subconjunto de indivíduos é escolhido aleatoriamente da população,
+    // e o indivíduo com o melhor valor de aptidão (neste caso, o valor de aptidão mais baixo)
+    // é selecionado como vencedor do torneio.
+
     // Seleciona k índices aleatórios da população
     $indices_selecionados = array_rand($populacao, $k);
 
     // Inicializa um array para armazenar os indivíduos selecionados com suas aptidões
     $selecionados = [];
     foreach ($indices_selecionados as $indice) {
+        // Cria uma entrada para o indivíduo atual e sua aptidão
         $selecionados[] = [
             'individuo' => $populacao[$indice],
             'aptidao' => avaliar_aptidao($populacao[$indice], $turmas),
@@ -1019,47 +1088,72 @@ function selecao_torneio($populacao, $k, $turmas)
 
     // Ordena os selecionados pela aptidão em ordem ascendente (menor para maior)
     usort($selecionados, function ($a, $b) {
+        // Função de comparação para usort que compara a aptidão dos indivíduos
         return $a['aptidao'] - $b['aptidao'];
     });
 
     // Retorna os dois melhores indivíduos (os dois primeiros após a ordenação)
+    // Esses são os vencedores do torneio
     return [$selecionados[0]['individuo'], $selecionados[1]['individuo']];
 }
+//
 
 // Crossover de um ponto: seleciona um ponto aleatório e troca as partes dos dois pais
+// Função que realiza um crossover de um ponto entre dois pais
 function crossover_um_ponto($pai1, $pai2)
 {
-    // Assumindo que pai1 e pai2 têm o mesmo número de elementos
+    // O crossover de um ponto é um método usado em algoritmos genéticos para combinar as informações
+    // de dois pais para gerar novos filhos. Essencialmente, um ponto ao longo do comprimento dos pais
+    // (representados como arrays) é selecionado. Tudo antes desse ponto é copiado do primeiro pai e
+    // tudo a partir desse ponto é copiado do segundo pai (e vice-versa para o segundo filho).
+
+    // Seleciona um ponto aleatório ao longo dos pais
     $ponto = rand(0, count($pai1) - 1);
+
+    // Cria o primeiro filho copiando a parte inicial do primeiro pai e a parte final do segundo pai
     $filho1 = array_merge(array_slice($pai1, 0, $ponto), array_slice($pai2, $ponto));
+
+    // Cria o segundo filho copiando a parte inicial do segundo pai e a parte final do primeiro pai
     $filho2 = array_merge(array_slice($pai2, 0, $ponto), array_slice($pai1, $ponto));
 
+    // Retorna os dois filhos
     return [$filho1, $filho2];
 }
+//
 
-// Mutação por troca: troca o valor de duas posições aleatórias no indivíduo
+// Função que realiza uma mutação por troca em um indivíduo
 function mutacao_troca($individuo, $turmas)
 {
-    // Escolhe uma turma aleatória para mutar
+    // Seleciona duas posições aleatórias dentro de um indivíduo e troca seus valores.
+
+    // Seleciona aleatoriamente uma turma dentro do indivíduo
     $turma = array_rand($individuo);
 
-    // Se a turma escolhida tem pelo menos dois dias com horários alocados, prossiga com a mutação
+    // Verifica se a turma selecionada tem pelo menos dois dias com 
+    // horários alocados. Se não tiver, a função simplesmente retorna o indivíduo sem
+    // fazer nenhuma alteração.
     if (count($individuo[$turma]) >= 2) {
-        // Escolhe dois dias aleatórios para trocar horários
+        // Se a turma selecionada tem pelo menos dois dias com horários alocados,
+        // a função seleciona dois desses dias aleatoriamente.
         $dias = array_rand($individuo[$turma], 2);
 
-        // Certifique-se de que os dias escolhidos têm pelo menos um horário alocado
+        // Verifica se cada um dos dias selecionados tem pelo menos 
+        // um horário alocado. Se não tiverem, a função novamente retorna o indivíduo 
+        // sem fazer nenhuma alteração.
         if(count($individuo[$turma][$dias[0]]) > 0 && count($individuo[$turma][$dias[1]]) > 0) {
-            // Escolhe um horário aleatório de cada dia para trocar
+            // Se cada um dos dias selecionados tem pelo menos um horário alocado, a função 
+            // seleciona aleatoriamente um horário de cada dia.
             $horario1 = array_rand($individuo[$turma][$dias[0]]);
             $horario2 = array_rand($individuo[$turma][$dias[1]]);
 
-            // Verificar se a troca é válida (não resulta em um professor dando duas aulas ao mesmo tempo)
+            // Verifica se a troca desses horários seria válida. Ela faz isso 
+            // verificando se a troca faria com que algum professor tivesse que dar duas aulas 
+            // ao mesmo tempo, o que não seria permitido.
             $docente1 = $individuo[$turma][$dias[0]][$horario1]['docente'];
             $docente2 = $individuo[$turma][$dias[1]][$horario2]['docente'];
 
             if(!horario_ocupado($individuo, $dias[1], $horario2, $docente1) && !horario_ocupado($individuo, $dias[0], $horario1, $docente2)) {
-                // Realiza a troca dos horários
+                // Se a troca for válida, a função realiza a troca de horários.
                 $temp = $individuo[$turma][$dias[0]][$horario1];
                 $individuo[$turma][$dias[0]][$horario1] = $individuo[$turma][$dias[1]][$horario2];
                 $individuo[$turma][$dias[1]][$horario2] = $temp;
@@ -1067,6 +1161,7 @@ function mutacao_troca($individuo, $turmas)
         }
     }
 
+    // A função então retorna o indivíduo modificado (ou não) pela mutação.
     return $individuo;
 }
 // 
@@ -1080,74 +1175,76 @@ function mutacao_troca($individuo, $turmas)
 // Numero de gerações que irão acontecer 
 //
 
-// Parâmetros
-$tamanho_populacao = 12;
-$inicio = time();
-$limite = 10 * 60;
+// Execução
+$tamanho_populacao = 8;  // Define o tamanho da população
+$inicio = time();  // Marca o início da execução do algoritmo
+$limite = 10 * 60;  // Limite de tempo de execução do algoritmo em segundos (10 minutos)
 
 // Criação da população inicial
-$populacao = criar_populacao_inicial($turmas, $tamanho_populacao);
+$populacao = criar_populacao_inicial($turmas, $tamanho_populacao);  // Cria uma população inicial aleatória de horários de aulas
 
+// Inicializa a melhor aptidão com o maior valor possível e a contagem de gerações sem melhora com 0
 $melhor_aptidao = PHP_INT_MAX;
 $geracoes_sem_melhora = 0;
 
-// Enquanto a aptidão do melhor indivíduo não for perfeita
+// Inicia o loop do algoritmo genético. O loop continuará enquanto a melhor aptidão for maior que 0, o tempo de execução não tiver excedido o limite e o número de gerações sem melhora for menor que 100
 while ($melhor_aptidao > 0 && time() - $inicio < $limite && $geracoes_sem_melhora < 100) {
-    // Avaliação da aptidão
+    
+    // Avalia a aptidão de cada indivíduo (horário de aula) na população
     $aptidoes = [];
     foreach ($populacao as $individuo) {
-        $aptidoes[] = avaliar_aptidao($individuo, $turmas);
+        $aptidoes[] = avaliar_aptidao($individuo, $turmas);  // Avalia a aptidão do indivíduo atual e a adiciona à lista de aptidões
     }
 
-    // Verifica se a aptidão do melhor indivíduo melhorou
-    $melhor_aptidao_atual = min($aptidoes);
-    if ($melhor_aptidao_atual < $melhor_aptidao) {
-        $melhor_aptidao = $melhor_aptidao_atual;
-        $geracoes_sem_melhora = 0;
-    } else {
-        $geracoes_sem_melhora++;
+    // Verifica se a melhor aptidão da população atual é melhor que a melhor aptidão encontrada até agora
+    $melhor_aptidao_atual = min($aptidoes);  // Obtém a melhor aptidão da população atual
+    if ($melhor_aptidao_atual < $melhor_aptidao) {  // Se a melhor aptidão atual for menor que a melhor aptidão encontrada até agora
+        $melhor_aptidao = $melhor_aptidao_atual;  // Atualiza a melhor aptidão
+        $geracoes_sem_melhora = 0;  // Reinicia a contagem de gerações sem melhora
+    } else {  // Se a melhor aptidão atual não for menor que a melhor aptidão encontrada até agora
+        $geracoes_sem_melhora++;  // Incrementa a contagem de gerações sem melhora
     }
 
-    // Etapa de seleção
+    // Executa a seleção por torneio, selecionando 2 pais da população
     $pais = selecao_torneio($populacao, 2, $turmas);
 
-    // Etapa de cruzamento
+    // Executa o crossover de um ponto nos pais selecionados para gerar filhos
     $filhos = crossover_um_ponto($pais[0], $pais[1]);
 
-    // Etapa de mutação
+    // Realiza a mutação por troca nos filhos gerados
     for ($i = 0; $i < count($filhos); $i++) {
         $filhos[$i] = mutacao_troca($filhos[$i], $turmas);
     }
 
-    // Verificar se todas as disciplinas estão alocadas
+    // Verifica se todas as disciplinas estão alocadas em cada filho. Se uma disciplina não estiver alocada, realiza uma mutação no filho
     for ($i = 0; $i < count($filhos); $i++) {
         if (!todas_disciplinas_alocadas($filhos[$i], $turmas)) {
-            // Se uma disciplina não estiver alocada, realize uma mutação
             $filhos[$i] = mutacao_troca($filhos[$i], $turmas);
         }
     }
 
-    // Substitui um percentual da população antiga pelos novos filhos
-    $percentual_substituicao = 0.2;
+    // Define o percentual da população que será substituído pelos novos filhos
+    $percentual_substituicao = 0.3;
     $quantidade_substituir = round($tamanho_populacao * $percentual_substituicao);
 
-    // Ordena a população pelo aptidão
+    // Ordena a população pela aptidão dos indivíduos
     usort($populacao, function ($a, $b) use ($turmas) {
         return avaliar_aptidao($a, $turmas) <=> avaliar_aptidao($b, $turmas);
     });
 
-    // Substitui os piores indivíduos pelos filhos
+    // Substitui os piores indivíduos da população pelos filhos
     for ($i = 0; $i < $quantidade_substituir; $i++) {
         $populacao[$tamanho_populacao - $i - 1] = $filhos[$i];
     }
 
-    // Reordena a população
+    // Reordena a população pela aptidão dos indivíduos
     usort($populacao, function ($a, $b) use ($turmas) {
         return avaliar_aptidao($a, $turmas) <=> avaliar_aptidao($b, $turmas);
     });
+
+    // Limita o tamanho da população ao tamanho inicialmente definido, descartando os piores indivíduos se a população for maior que o tamanho definido
     $populacao = array_slice($populacao, 0, $tamanho_populacao);
 }
-
 
 // Seleção do melhor indivíduo da última geração
 $melhor_individuo = selecionar_melhor_individuo($populacao, $turmas);
