@@ -25,8 +25,8 @@ $turmas = [
                     [
                         "nome" => "Marcius",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
                     ],
                 ]
             ],
@@ -35,10 +35,10 @@ $turmas = [
                 "encontrosSemanais" => 3,
                 "docentes" => [
                     [
-                        "nome" => "Luis",
-                        "diasIndisponiveis" => ["Segunda", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "nome" => "Luis, Renê",
+                        "diasIndisponiveis" => ["Segunda"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -50,8 +50,8 @@ $turmas = [
                     [
                         "nome" => "Normando",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quinta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -62,9 +62,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Terça", "Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -75,9 +75,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Gersonilo",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -108,8 +108,8 @@ $turmas = [
                     [
                         "nome" => "Sansuke",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -120,9 +120,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Igor",
-                        "diasIndisponiveis" => ["Terça", "Quarta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quarta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -133,10 +133,10 @@ $turmas = [
                 "encontrosSemanais" => 2,
                 "docentes" => [
                     [
-                        "nome" => "Igor",
-                        "diasIndisponiveis" => ["Segunda", "Quarta", "Quinta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "nome" => "Igor, Renê",
+                        "diasIndisponiveis" => ["Quarta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -148,9 +148,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Gersonilo",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Quinta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -163,8 +163,8 @@ $turmas = [
                     [
                         "nome" => "Wellington",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -196,8 +196,8 @@ $turmas = [
                     [
                         "nome" => "Romero",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -208,9 +208,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Igor",
-                        "diasIndisponiveis" => ["Terça", "Quarta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quarta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -222,9 +222,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Helder",
-                        "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -237,8 +237,8 @@ $turmas = [
                     [
                         "nome" => "Leila (Letras)",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -249,9 +249,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Gersonilo",
-                    "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                    "diasIndisponiveis" => ["Segunda", "Terça"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -264,8 +264,8 @@ $turmas = [
                     [
                         "nome" => "Diana (Letras)",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quarta", "Quinta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -297,8 +297,8 @@ $turmas = [
                     [
                         "nome" => "R. Andrade",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -309,9 +309,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Helder",
-                        "diasIndisponiveis" => ["Terça", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -323,9 +323,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Segunda","Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -337,9 +337,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Priscilla",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -352,8 +352,8 @@ $turmas = [
                     [
                         "nome" => "Alvaro",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -384,9 +384,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Maria",
-                        "diasIndisponiveis" => ["Terça", "Quarta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quarta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -398,8 +398,8 @@ $turmas = [
                     [
                         "nome" => "Kádna",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -411,9 +411,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Assuero",
-                        "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -424,9 +424,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Tiago",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -439,8 +439,8 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Sérgio",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Quarta", "Quinta"],
-                        "diasConsecutivos" => 0,
+                        "diasIndisponiveis" => ["Segunda", "Quarta"],
+                       
                         "encontrosPorDia" => 2,
 
 
@@ -472,9 +472,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Assuero",
-                        "diasIndisponiveis" => ["Terça", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -485,9 +485,9 @@ $turmas = [
                 "docentes " => [
                     [
                         "nome" => "Maria",
-                        "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quarta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -500,8 +500,8 @@ $turmas = [
                     [
                         "nome" => "Icaro",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -513,9 +513,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Luis",
-                    "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                    "diasIndisponiveis" => ["Segunda"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -528,8 +528,8 @@ $turmas = [
                     [
                         "nome" => "Jean",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -560,9 +560,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Terça", "Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -574,8 +574,8 @@ $turmas = [
                     [
                         "nome" => "R. Andrade",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -587,9 +587,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -602,7 +602,7 @@ $turmas = [
                         "nome" => "R. Gusmão",
                         "diasIndisponiveis" => ["Segunda", "Terça"],
                         "diasConsecutivos" => 3,
-                        "encontrosPorDia" => 1,
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -615,8 +615,8 @@ $turmas = [
                     [
                         "nome" => "Jean",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -649,8 +649,8 @@ $turmas = [
                     [
                         "nome" => "Kádna",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                       
+                        "encontrosPorDia" => 2,
 
                     ],
                 ]
@@ -662,9 +662,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Tiago",
-                        "diasIndisponiveis" => ["Segunda", "Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -676,9 +676,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Priscilla",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                       
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -691,8 +691,7 @@ $turmas = [
                     [
                         "nome" => "Alvaro",
                         "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
-                        "diasConsecutivos" => 2,
-                        "encontrosPorDia" => 1,
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -704,9 +703,8 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Luis",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Quinta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda"],
+                        "encontrosPorDia" => 2,
 
 
                     ],
@@ -719,7 +717,6 @@ $turmas = [
 
     "Turma 9" => [
         "vagas" => [
-            ["dia" => "Terça", "horario" => "14:00_18:00"],
             ["dia" => "Terça", "horario" => "18:30_20:10"],
             ["dia" => "Terça", "horario" => "20:10_21:50"],
             ["dia" => "Quarta", "horario" => "18:30_20:10"],
@@ -734,9 +731,9 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Sérgio",
-                        "diasIndisponiveis" => ["Segunda", "Quarta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Quarta"],
+                       
+                        "encontrosPorDia" => 2,
                     ],
                 ]
             ],
@@ -746,22 +743,22 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "R. Gusmão",
-                        "diasIndisponiveis" => ["Segunda", "Terça", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
+                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                       
                         "encontrosPorDia" => 1,
                     ],
                 ]
             ],
             [
                 "nome" => "Aprendizagem de Máquina",
-                "encontrosSemanais" => 1,
+                "encontrosSemanais" => 2,
                 "encontrosMesmoDia" => true,
                 "docentes " => [
                     [
                         "nome" => "Tiago",
-                        "diasIndisponiveis" => ["Segunda", "Quarta", "Quinta", "Sexta"],
-                        "diasConsecutivos" => 0,
-                        "encontrosPorDia" => 1,
+                        "diasIndisponiveis" => ["Segunda", "Sexta"],
+                       
+                        "encontrosPorDia" => 2,
                     ],
                 ]
             ],
@@ -796,7 +793,7 @@ function individuo($turmas) {
         
                 foreach ($docentes as $docente) {
                     $docente_escolhido = $docente;
-                    $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'] ?? []; // usar array vazio se a chave 'diasIndisponiveis' não existir
+                    $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'] ?? []; 
                     $encontrosPorDia = $docente_escolhido['encontrosPorDia'];
                     $aulas_docente_semana = 0;
 
@@ -837,7 +834,6 @@ function individuo($turmas) {
 
 
 
-
 function todas_disciplinas_alocadas($individuo, $turmas) {
     // Extrair todas as disciplinas
     $todas_disciplinas = [];
@@ -865,9 +861,12 @@ function encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia,
     // Loop pelos horários disponíveis no dia
     foreach ($vagas_horarios as $vaga) {
         if ($vaga['dia'] === $dia && (!isset($ultimo_horario_alocado[$dia]) || $vaga['horario'] > $ultimo_horario_alocado[$dia])) {
-            // Verifica se o docente não está ocupado neste horário
-            if (!isset($horarios_docentes[$docente_escolhido]) || !isset($horarios_docentes[$docente_escolhido][$dia]) || !in_array($vaga['horario'], $horarios_docentes[$docente_escolhido][$dia])) {
-                return $vaga['horario'];
+            // Verifica se o horário já está ocupado
+            if (!horario_ocupado($horarios_alocados, $dia, $vaga['horario'])) {
+                // Verifica se o docente não está ocupado neste horário
+                if (!isset($horarios_docentes[$docente_escolhido]) || !isset($horarios_docentes[$docente_escolhido][$dia]) || !in_array($vaga['horario'], $horarios_docentes[$docente_escolhido][$dia])) {
+                    return $vaga['horario'];
+                }
             }
         }
     }
@@ -1081,12 +1080,8 @@ function mutacao_troca($individuo, $turmas)
 // Numero de gerações que irão acontecer 
 //
 
-
-
 // Parâmetros
-$tamanho_populacao = 5;
-$taxa_cruzamento = 0.8;
-$taxa_mutacao = 0.06;
+$tamanho_populacao = 12;
 $inicio = time();
 $limite = 10 * 60;
 
@@ -1116,18 +1111,12 @@ while ($melhor_aptidao > 0 && time() - $inicio < $limite && $geracoes_sem_melhor
     // Etapa de seleção
     $pais = selecao_torneio($populacao, 2, $turmas);
 
-   // Etapa de cruzamento
-    if (rand() / getrandmax() < $taxa_cruzamento) {
-        $filhos = crossover_um_ponto($pais[0], $pais[1]);
-    } else {
-        $filhos = $pais;
-    }
+    // Etapa de cruzamento
+    $filhos = crossover_um_ponto($pais[0], $pais[1]);
 
     // Etapa de mutação
     for ($i = 0; $i < count($filhos); $i++) {
-        if (rand() / getrandmax() < $taxa_mutacao) {
-            $filhos[$i] = mutacao_troca($filhos[$i], $turmas);
-        }
+        $filhos[$i] = mutacao_troca($filhos[$i], $turmas);
     }
 
     // Verificar se todas as disciplinas estão alocadas
@@ -1139,7 +1128,7 @@ while ($melhor_aptidao > 0 && time() - $inicio < $limite && $geracoes_sem_melhor
     }
 
     // Substitui um percentual da população antiga pelos novos filhos
-    $percentual_substituicao = 0.2; // por exemplo, substituir 20% da população
+    $percentual_substituicao = 0.2;
     $quantidade_substituir = round($tamanho_populacao * $percentual_substituicao);
 
     // Ordena a população pelo aptidão
@@ -1158,6 +1147,7 @@ while ($melhor_aptidao > 0 && time() - $inicio < $limite && $geracoes_sem_melhor
     });
     $populacao = array_slice($populacao, 0, $tamanho_populacao);
 }
+
 
 // Seleção do melhor indivíduo da última geração
 $melhor_individuo = selecionar_melhor_individuo($populacao, $turmas);
