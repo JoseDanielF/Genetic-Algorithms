@@ -36,7 +36,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Luis",
-                        "diasIndisponiveis" => ["Segunda"],
+                        "diasIndisponiveis" => ["Segunda", "Quarta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -62,7 +62,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Terça", "Quarta", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -75,7 +75,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Gersonilo",
-                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -120,7 +120,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Igor",
-                        "diasIndisponiveis" => ["Quarta"],
+                        "diasIndisponiveis" => ["Terça", "Quarta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -134,7 +134,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Igor",
-                        "diasIndisponiveis" => ["Quarta"],
+                        "diasIndisponiveis" => ["Segunda", "Quarta", "Quinta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -148,7 +148,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Gersonilo",
-                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Quinta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -205,10 +205,10 @@ $turmas = [
             [
                 "nome" => "Algoritmos e Estruturas de Dados II",
                 "encontrosSemanais" => 2,
-                "docentes " => [
+                "docentes" => [
                     [
                         "nome" => "Igor",
-                        "diasIndisponiveis" => ["Quarta"],
+                        "diasIndisponiveis" => ["Terça", "Quarta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -222,7 +222,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Helder",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -249,7 +249,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Gersonilo",
-                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                    "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -306,10 +306,10 @@ $turmas = [
             [
                 "nome" => "Arquitetura de Computadores",
                 "encontrosSemanais" => 2,
-                "docentes " => [
+                "docentes" => [
                     [
                         "nome" => "Helder",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Terça", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -323,7 +323,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda","Quinta", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -337,7 +337,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Priscilla",
-                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Quarta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -384,7 +384,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Maria",
-                        "diasIndisponiveis" => ["Quarta", "Sexta"],
+                        "diasIndisponiveis" => ["Terça", "Quarta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -411,7 +411,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Assuero",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -424,7 +424,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Tiago",
-                        "diasIndisponiveis" => ["Segunda", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -434,12 +434,12 @@ $turmas = [
             ],
             [
                 "nome" => "Sistemas Operacionais",
-                "encontrosSemanais" => 1,
+                "encontrosSemanais" => 2,
                 "encontrosMesmoDia" => true,
                 "docentes" => [
                     [
                         "nome" => "Sérgio",
-                        "diasIndisponiveis" => ["Segunda", "Quarta"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Quarta", "Quinta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 2,
 
@@ -472,7 +472,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Assuero",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Terça", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -485,7 +485,7 @@ $turmas = [
                 "docentes " => [
                     [
                         "nome" => "Maria",
-                        "diasIndisponiveis" => ["Quarta", "Sexta"],
+                        "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -513,7 +513,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Luis",
-                        "diasIndisponiveis" => ["Segunda"],
+                    "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -560,7 +560,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Terça", "Quarta", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -570,7 +570,7 @@ $turmas = [
             [
                 "nome" => "Interação Humano-Computador",
                 "encontrosSemanais" => 2,
-                "docentes " => [
+                "docentes" => [
                     [
                         "nome" => "R. Andrade",
                         "diasIndisponiveis" => ["Quarta", "Quinta", "Sexta"],
@@ -587,7 +587,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Ryan",
-                        "diasIndisponiveis" => ["Quinta", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda", "Quinta", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -659,10 +659,10 @@ $turmas = [
                 "nome" => "Aprendizagem de Máquina",
                 "encontrosSemanais" => 1,
                 "encontrosMesmoDia" => true,
-                "docentes " => [
+                "docentes" => [
                     [
                         "nome" => "Tiago",
-                        "diasIndisponiveis" => ["Segunda", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda", "Quarta", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -676,7 +676,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Priscilla",
-                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Sexta"],
                         "diasConsecutivos" => 2,
                         "encontrosPorDia" => 1,
 
@@ -704,7 +704,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Luis",
-                        "diasIndisponiveis" => ["Segunda"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Quinta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
 
@@ -734,7 +734,7 @@ $turmas = [
                 "docentes" => [
                     [
                         "nome" => "Sérgio",
-                        "diasIndisponiveis" => ["Segunda", "Quarta"],
+                        "diasIndisponiveis" => ["Segunda", "Quarta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
                     ],
@@ -743,10 +743,10 @@ $turmas = [
             [
                 "nome" => "Estágio Supervisionado Obrigatório",
                 "encontrosSemanais" => 1,
-                "docentes " => [
+                "docentes" => [
                     [
                         "nome" => "R. Gusmão",
-                        "diasIndisponiveis" => ["Segunda", "Terça"],
+                        "diasIndisponiveis" => ["Segunda", "Terça", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
                     ],
@@ -759,7 +759,7 @@ $turmas = [
                 "docentes " => [
                     [
                         "nome" => "Tiago",
-                        "diasIndisponiveis" => ["Segunda", "Sexta"],
+                        "diasIndisponiveis" => ["Segunda", "Quarta", "Quinta", "Sexta"],
                         "diasConsecutivos" => 0,
                         "encontrosPorDia" => 1,
                     ],
@@ -774,6 +774,7 @@ $turmas = [
 // Função que gera um indivíduo (alocação) para cada turma com base nas preferências e disponibilidades dos docentes e disciplinas
 function individuo($turmas) {
     $individuo = [];
+    $horarios_docentes = [];
 
     foreach ($turmas as $turma => $info) {
         $vagas_horarios = $info['vagas'];
@@ -789,28 +790,38 @@ function individuo($turmas) {
         }
 
         foreach ($disciplinas as $disciplina) {
-            if (isset($disciplina['docentes']) && is_array($disciplina['docentes'])) {
+            if (isset($disciplina['docentes'])) {
                 $docentes = $disciplina['docentes'];
                 $encontros_semanais = $disciplina['encontrosSemanais'];
-
+        
                 foreach ($docentes as $docente) {
                     $docente_escolhido = $docente;
-                    $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'];
+                    $dias_indisponiveis = $docente_escolhido['diasIndisponiveis'] ?? []; // usar array vazio se a chave 'diasIndisponiveis' não existir
                     $encontrosPorDia = $docente_escolhido['encontrosPorDia'];
-                    
+                    $aulas_docente_semana = 0;
+
                     for ($i = 0; $i < $encontros_semanais; $i++) {
-                        $count = 0;
                         foreach($dias as $dia) {
                             if (!in_array($dia, $dias_indisponiveis) && count($horarios_alocados[$dia]) < $encontrosPorDia) {
-                                $horario_disponivel = encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia, $ultimo_horario_alocado);
+                                $horario_disponivel = encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia, $ultimo_horario_alocado, $docente_escolhido['nome'], $horarios_docentes);
 
-                                if ($horario_disponivel !== null) {
+                                if ($horario_disponivel !== null && $aulas_docente_semana < $encontros_semanais) {
                                     $horarios_alocados[$dia][] = [
                                         'disciplina' => $disciplina['nome'],
                                         'docente' => $docente_escolhido['nome'],
                                         'horario' => $horario_disponivel,
                                     ];
                                     $ultimo_horario_alocado[$dia] = $horario_disponivel;
+                                    $aulas_docente_semana++;
+
+                                    // Adiciona este horário aos horários ocupados do docente
+                                    if (!isset($horarios_docentes[$docente_escolhido['nome']])) {
+                                        $horarios_docentes[$docente_escolhido['nome']] = [];
+                                    }
+                                    if (!isset($horarios_docentes[$docente_escolhido['nome']][$dia])) {
+                                        $horarios_docentes[$docente_escolhido['nome']][$dia] = [];
+                                    }
+                                    $horarios_docentes[$docente_escolhido['nome']][$dia][] = $horario_disponivel;
                                 }
                             }
                         }
@@ -824,25 +835,43 @@ function individuo($turmas) {
     return $individuo;
 }
 
+
+
+
+function todas_disciplinas_alocadas($individuo, $turmas) {
+    // Extrair todas as disciplinas
+    $todas_disciplinas = [];
+    foreach ($turmas as $turma) {
+        foreach ($turma['disciplinas'] as $disciplina) {
+            $todas_disciplinas[] = $disciplina['nome'];
+        }
+    }
+    // Verificar se todas as disciplinas estão no indivíduo
+    foreach ($individuo as $turma) {
+        foreach ($turma as $dia) {
+            foreach ($dia as $aula) {
+                if (($key = array_search($aula['disciplina'], $todas_disciplinas)) !== false) {
+                    unset($todas_disciplinas[$key]);
+                }
+            }
+        }
+    }
+    return count($todas_disciplinas) === 0;
+}
+
 // Função que encontra um horário disponível para alocar a disciplina e o docente em questão
-function encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia, $ultimo_horario_alocado) {
-    // Recupera a lista completa de horários disponíveis para o dia atual
-    $horarios_dia = array_column(array_filter($vagas_horarios, function($vaga) use ($dia) {
-        return $vaga['dia'] == $dia;
-    }), 'horario');
-
-    // Ordena a lista de horários em ordem ascendente
-    sort($horarios_dia);
-
-    // Loop por cada horário do dia
-    for ($i = 0; $i < count($horarios_dia); $i++) {
-        // Se o horário atual não foi alocado, retorna esse horário
-        if (!horario_ocupado($horarios_alocados, $dia, $horarios_dia[$i])) {
-            return $horarios_dia[$i];
+function encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia, $ultimo_horario_alocado, $docente_escolhido, $horarios_docentes)
+{
+    // Loop pelos horários disponíveis no dia
+    foreach ($vagas_horarios as $vaga) {
+        if ($vaga['dia'] === $dia && (!isset($ultimo_horario_alocado[$dia]) || $vaga['horario'] > $ultimo_horario_alocado[$dia])) {
+            // Verifica se o docente não está ocupado neste horário
+            if (!isset($horarios_docentes[$docente_escolhido]) || !isset($horarios_docentes[$docente_escolhido][$dia]) || !in_array($vaga['horario'], $horarios_docentes[$docente_escolhido][$dia])) {
+                return $vaga['horario'];
+            }
         }
     }
 
-    // Se todos os horários foram alocados, retorna null
     return null;
 }
 
@@ -862,10 +891,11 @@ function horario_ocupado($horarios_alocados, $dia, $horario)
 //
 
 // Etapa 2: Função de Aptidão e //Etapa 5: Aplicação das Restrições (Apos aplicação das restrições)
-
 function avaliar_aptidao($individuo, $turmas)
 {
     $total_conflitos = 0;
+    $aulas_por_disciplina = [];
+    $aulas_por_professor_por_dia = [];
 
     // Loop pelos horários alocados de cada turma
     foreach ($individuo as $turma => $horarios_alocados) {
@@ -886,12 +916,50 @@ function avaliar_aptidao($individuo, $turmas)
                 }
                 // Adiciona a alocação ao array de aulas por horário
                 $aulas_por_horario[$horario][] = $alocacao;
+
+                // Contabiliza aulas por disciplina
+                if (!isset($aulas_por_disciplina[$turma][$alocacao['disciplina']])) {
+                    $aulas_por_disciplina[$turma][$alocacao['disciplina']] = 0;
+                }
+                $aulas_por_disciplina[$turma][$alocacao['disciplina']]++;
+
+                // Contabiliza aulas por professor por dia
+                if (!isset($aulas_por_professor_por_dia[$alocacao['docente']])) {
+                    $aulas_por_professor_por_dia[$alocacao['docente']] = [];
+                }
+                if (!isset($aulas_por_professor_por_dia[$alocacao['docente']][$dia])) {
+                    $aulas_por_professor_por_dia[$alocacao['docente']][$dia] = 0;
+                }
+                $aulas_por_professor_por_dia[$alocacao['docente']][$dia]++;
             }
         }
     }
+
+    // Verifica se todas as disciplinas de cada turma foram alocadas
+    foreach ($turmas as $turma => $info) {
+        foreach ($info['disciplinas'] as $disciplina) {
+            if (!isset($aulas_por_disciplina[$turma][$disciplina['nome']])) {
+                $total_conflitos++;
+            } else if ($aulas_por_disciplina[$turma][$disciplina['nome']] < $disciplina['encontrosSemanais']) {
+                $total_conflitos += $disciplina['encontrosSemanais'] - $aulas_por_disciplina[$turma][$disciplina['nome']];
+            }
+        }
+    }
+
+    // Verifica se as aulas de cada professor estão distribuídas uniformemente ao longo da semana
+    foreach ($aulas_por_professor_por_dia as $aulas_professor) {
+        $media_aulas = array_sum($aulas_professor) / count($aulas_professor);
+        foreach ($aulas_professor as $aulas_dia) {
+            if ($aulas_dia > $media_aulas) {
+                $total_conflitos++;
+            }
+        }
+    }
+
     // Retorna o total de conflitos
     return $total_conflitos;
 }
+
 //
 
 // Função que seleciona o melhor indivíduo (alocação) dentro de uma população de indivíduos
@@ -920,7 +988,6 @@ function selecionar_melhor_individuo($populacao, $turmas)
 //
 
 // Etapa 3: População Inicial
-
 function criar_populacao_inicial($turmas, $tamanho_populacao)
 {
     $populacao = [];
@@ -932,7 +999,6 @@ function criar_populacao_inicial($turmas, $tamanho_populacao)
 
     return $populacao;
 }
-
 //
 
 // Etapa 4: Operadores Genéticos
@@ -978,15 +1044,32 @@ function mutacao_troca($individuo, $turmas)
     // Escolhe uma turma aleatória para mutar
     $turma = array_rand($individuo);
 
-    // Gera uma nova alocação para a turma selecionada
-    $nova_alocacao = individuo([$turma => $turmas[$turma]])[$turma];
+    // Se a turma escolhida tem pelo menos dois dias com horários alocados, prossiga com a mutação
+    if (count($individuo[$turma]) >= 2) {
+        // Escolhe dois dias aleatórios para trocar horários
+        $dias = array_rand($individuo[$turma], 2);
 
-    // Substitui a alocação da turma selecionada pela nova alocação
-    $individuo[$turma] = $nova_alocacao;
+        // Certifique-se de que os dias escolhidos têm pelo menos um horário alocado
+        if(count($individuo[$turma][$dias[0]]) > 0 && count($individuo[$turma][$dias[1]]) > 0) {
+            // Escolhe um horário aleatório de cada dia para trocar
+            $horario1 = array_rand($individuo[$turma][$dias[0]]);
+            $horario2 = array_rand($individuo[$turma][$dias[1]]);
+
+            // Verificar se a troca é válida (não resulta em um professor dando duas aulas ao mesmo tempo)
+            $docente1 = $individuo[$turma][$dias[0]][$horario1]['docente'];
+            $docente2 = $individuo[$turma][$dias[1]][$horario2]['docente'];
+
+            if(!horario_ocupado($individuo, $dias[1], $horario2, $docente1) && !horario_ocupado($individuo, $dias[0], $horario1, $docente2)) {
+                // Realiza a troca dos horários
+                $temp = $individuo[$turma][$dias[0]][$horario1];
+                $individuo[$turma][$dias[0]][$horario1] = $individuo[$turma][$dias[1]][$horario2];
+                $individuo[$turma][$dias[1]][$horario2] = $temp;
+            }
+        }
+    }
 
     return $individuo;
 }
-
 // 
 
 // Etapa 5: Aplicação das Restrições
@@ -1001,11 +1084,11 @@ function mutacao_troca($individuo, $turmas)
 
 
 // Parâmetros
-$tamanho_populacao = 500;
+$tamanho_populacao = 5;
 $taxa_cruzamento = 0.8;
-$taxa_mutacao = 0.05;
+$taxa_mutacao = 0.06;
 $inicio = time();
-$limite = 10 * 60;  // 10 minutos
+$limite = 10 * 60;
 
 // Criação da população inicial
 $populacao = criar_populacao_inicial($turmas, $tamanho_populacao);
@@ -1014,7 +1097,7 @@ $melhor_aptidao = PHP_INT_MAX;
 $geracoes_sem_melhora = 0;
 
 // Enquanto a aptidão do melhor indivíduo não for perfeita
-while ($melhor_aptidao > 0 && (time() - $inicio) < $limite) {
+while ($melhor_aptidao > 0 && time() - $inicio < $limite && $geracoes_sem_melhora < 100) {
     // Avaliação da aptidão
     $aptidoes = [];
     foreach ($populacao as $individuo) {
@@ -1033,8 +1116,7 @@ while ($melhor_aptidao > 0 && (time() - $inicio) < $limite) {
     // Etapa de seleção
     $pais = selecao_torneio($populacao, 2, $turmas);
 
-    // Etapa de cruzamento
-    $filhos = [];
+   // Etapa de cruzamento
     if (rand() / getrandmax() < $taxa_cruzamento) {
         $filhos = crossover_um_ponto($pais[0], $pais[1]);
     } else {
@@ -1048,8 +1130,29 @@ while ($melhor_aptidao > 0 && (time() - $inicio) < $limite) {
         }
     }
 
-    // Substitui a população antiga pelos novos filhos
-    $populacao = array_merge($filhos, $populacao);
+    // Verificar se todas as disciplinas estão alocadas
+    for ($i = 0; $i < count($filhos); $i++) {
+        if (!todas_disciplinas_alocadas($filhos[$i], $turmas)) {
+            // Se uma disciplina não estiver alocada, realize uma mutação
+            $filhos[$i] = mutacao_troca($filhos[$i], $turmas);
+        }
+    }
+
+    // Substitui um percentual da população antiga pelos novos filhos
+    $percentual_substituicao = 0.2; // por exemplo, substituir 20% da população
+    $quantidade_substituir = round($tamanho_populacao * $percentual_substituicao);
+
+    // Ordena a população pelo aptidão
+    usort($populacao, function ($a, $b) use ($turmas) {
+        return avaliar_aptidao($a, $turmas) <=> avaliar_aptidao($b, $turmas);
+    });
+
+    // Substitui os piores indivíduos pelos filhos
+    for ($i = 0; $i < $quantidade_substituir; $i++) {
+        $populacao[$tamanho_populacao - $i - 1] = $filhos[$i];
+    }
+
+    // Reordena a população
     usort($populacao, function ($a, $b) use ($turmas) {
         return avaliar_aptidao($a, $turmas) <=> avaliar_aptidao($b, $turmas);
     });
