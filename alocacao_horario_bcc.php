@@ -895,13 +895,11 @@ function encontrar_horario_disponivel($vagas_horarios, $horarios_alocados, $dia,
 {
     // Loop através dos horários disponíveis no dia
     foreach ($vagas_horarios as $vaga) {
-        // Se o dia do horário disponível é o mesmo que o dia desejado
-        // e o horário disponível é maior que o último horário alocado (ou nenhum horário foi alocado ainda nesse dia)
+        // Verifica se o dia do horário disponível é o mesmo que o dia desejado e o horário disponível é maior que o último horário alocado
         if ($vaga['dia'] === $dia && (!isset($ultimo_horario_alocado[$dia]) || $vaga['horario'] > $ultimo_horario_alocado[$dia])) {
             // Verifica se o horário já está ocupado por uma disciplina ou docente
             if (!horario_ocupado($horarios_alocados, $dia, $vaga['horario'])) {
-                // Verifica se o docente não está ocupado neste horário
-                // Se o docente não está ocupado neste dia e horário, retorna o horário disponível
+                // Verifica se o docente não está ocupado neste horário e se o docente não está ocupado neste dia e horário, retorna o horário disponível
                 if (!isset($horarios_docentes[$docente_escolhido]) || !isset($horarios_docentes[$docente_escolhido][$dia]) || !in_array($vaga['horario'], $horarios_docentes[$docente_escolhido][$dia])) {
                     return $vaga['horario'];
                 }
@@ -1015,9 +1013,6 @@ function avaliar_aptidao($individuo, $turmas)
 // Função que seleciona o melhor indivíduo (alocação) dentro de uma população de indivíduos
 function selecionar_melhor_individuo($populacao, $turmas)
 {
-    // A função selecionar_melhor_individuo seleciona o indivíduo mais apto (ou melhor) de uma população.
-    // Calcula a aptidão de cada indivíduo na população e selecionando o que tem a melhor (ou seja, menor) aptidão.
-
     // Inicializa a variável que armazenará o melhor indivíduo e a melhor aptidão encontrada com valores nulos e PHP_INT_MAX respectivamente
     $melhor_individuo = null;
     $melhor_aptidao = PHP_INT_MAX;
@@ -1044,10 +1039,6 @@ function selecionar_melhor_individuo($populacao, $turmas)
 // Função que cria a população inicial
 function criar_populacao_inicial($turmas, $tamanho_populacao)
 {
-    // A função criar_populacao_inicial é usada para gerar a população inicial para o algoritmo genético.
-    // Essa população inicial é essencialmente um conjunto de possíveis soluções para o problema, 
-    // onde cada solução é um indivíduo na população.
-
     // Inicializa um array vazio para armazenar a população
     $populacao = [];
 
@@ -1068,11 +1059,6 @@ function criar_populacao_inicial($turmas, $tamanho_populacao)
 // Função que realiza a seleção por torneio de indivíduos da população
 function selecao_torneio($populacao, $k, $turmas)
 {
-    // A função selecao_torneio realiza um processo de seleção chamado seleção por torneio.
-    // Nesse processo, um subconjunto de indivíduos é escolhido aleatoriamente da população,
-    // e o indivíduo com o melhor valor de aptidão (neste caso, o valor de aptidão mais baixo)
-    // é selecionado como vencedor do torneio.
-
     // Seleciona k índices aleatórios da população
     $indices_selecionados = array_rand($populacao, $k);
 
@@ -1102,10 +1088,6 @@ function selecao_torneio($populacao, $k, $turmas)
 // Função que realiza um crossover de um ponto entre dois pais
 function crossover_um_ponto($pai1, $pai2)
 {
-    // O crossover de um ponto é um método usado em algoritmos genéticos para combinar as informações
-    // de dois pais para gerar novos filhos. Essencialmente, um ponto ao longo do comprimento dos pais
-    // (representados como arrays) é selecionado. Tudo antes desse ponto é copiado do primeiro pai e
-    // tudo a partir desse ponto é copiado do segundo pai (e vice-versa para o segundo filho).
 
     // Seleciona um ponto aleatório ao longo dos pais
     $ponto = rand(0, count($pai1) - 1);
@@ -1124,31 +1106,21 @@ function crossover_um_ponto($pai1, $pai2)
 // Função que realiza uma mutação por troca em um indivíduo
 function mutacao_troca($individuo, $turmas)
 {
-    // Seleciona duas posições aleatórias dentro de um indivíduo e troca seus valores.
-
     // Seleciona aleatoriamente uma turma dentro do indivíduo
     $turma = array_rand($individuo);
 
-    // Verifica se a turma selecionada tem pelo menos dois dias com 
-    // horários alocados. Se não tiver, a função simplesmente retorna o indivíduo sem
-    // fazer nenhuma alteração.
+    // Verifica se a turma selecionada tem pelo menos dois dias com horários alocados. Se não tiver, a função retorna o indivíduo sem fazer nenhuma alteração.
     if (count($individuo[$turma]) >= 2) {
-        // Se a turma selecionada tem pelo menos dois dias com horários alocados,
-        // a função seleciona dois desses dias aleatoriamente.
+        // Se a turma selecionada tem pelo menos dois dias com horários alocados, a função seleciona dois desses dias aleatoriamente.
         $dias = array_rand($individuo[$turma], 2);
 
-        // Verifica se cada um dos dias selecionados tem pelo menos 
-        // um horário alocado. Se não tiverem, a função novamente retorna o indivíduo 
-        // sem fazer nenhuma alteração.
+        // Verifica se cada um dos dias selecionados tem pelo menos um horário alocado. Se não tiverem, a função retorna o indivíduo sem fazer nenhuma alteração.
         if(count($individuo[$turma][$dias[0]]) > 0 && count($individuo[$turma][$dias[1]]) > 0) {
-            // Se cada um dos dias selecionados tem pelo menos um horário alocado, a função 
-            // seleciona aleatoriamente um horário de cada dia.
+            // Se cada um dos dias selecionados tem pelo menos um horário alocado, a função seleciona aleatoriamente um horário de cada dia.
             $horario1 = array_rand($individuo[$turma][$dias[0]]);
             $horario2 = array_rand($individuo[$turma][$dias[1]]);
 
-            // Verifica se a troca desses horários seria válida. Ela faz isso 
-            // verificando se a troca faria com que algum professor tivesse que dar duas aulas 
-            // ao mesmo tempo, o que não seria permitido.
+            // Verifica se a troca desses horários seria válida. Verifica se a troca faria com que algum professor tivesse que dar duas aulas ao mesmo tempo, o que não seria permitido.
             $docente1 = $individuo[$turma][$dias[0]][$horario1]['docente'];
             $docente2 = $individuo[$turma][$dias[1]][$horario2]['docente'];
 
@@ -1165,15 +1137,6 @@ function mutacao_troca($individuo, $turmas)
     return $individuo;
 }
 // 
-
-// Etapa 5: Aplicação das Restrições
-// Atualização da função de avaliar aptidão com as restrições 
-//
-
-
-// Etapa 6: Critério de Parada
-// Numero de gerações que irão acontecer 
-//
 
 // Execução
 $tamanho_populacao = 8;  // Define o tamanho da população
