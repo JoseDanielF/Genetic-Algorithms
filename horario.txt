@@ -115,9 +115,9 @@ Terça:
 18:30_20:10: Aprendizagem de Máquina (Tiago)
 Quarta:
 18:30_20:10: Banco de Dados Avançados (Priscilla)
-20:10_21:50: Banco de Dados Avançados (Priscilla)
-Quinta:
 20:10_21:50: Redes Neurais (Luis)
+Quinta:
+20:10_21:50: Banco de Dados Avançados (Priscilla)
 Sexta:
 18:30_20:10: Testes de Software (Alvaro)
 20:10_21:50: Redes Neurais (Luis)

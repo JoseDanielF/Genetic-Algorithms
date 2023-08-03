@@ -1,8 +1,9 @@
 <?php
 
-//REPRESENTAÇÃO DOS DOCENTES E MATERIAS DO CURSO DE BCC
+//REPRESENTAÇÃO DOS DOCENTES E MATÉRIAS DO CURSO DE BCC
 $turmas = [
     //1º PERIODO
+    
     "Turma 1" => [
         "vagas" => [
             ["dia" => "Segunda", "horario" => "18:30_20:10"],
@@ -1072,7 +1073,7 @@ function selecao_torneio($populacao, $k, $turmas)
         ];
     }
 
-    // Ordena os selecionados pela aptidão em ordem ascendente (menor para maior)
+    // Ordena os selecionados pela aptidão em ordem crescente
     usort($selecionados, function ($a, $b) {
         // Função de comparação para usort que compara a aptidão dos indivíduos
         return $a['aptidao'] - $b['aptidao'];
