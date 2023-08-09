@@ -1088,26 +1088,8 @@ while ($melhor_aptidao > 0 && $geracoes_sem_melhora < 1000) {
 // Seleção do melhor indivíduo da última geração
 $melhor_individuo = selecionar_melhor_individuo($populacao, $turmas);
 
-// Geração do arquivo TXT
-$conteudo_txt = "";
 $fim = time(); // Marca o fim da execução do algoritmo
 $tempo_execucao = $fim - $inicio;
-
-foreach ($melhor_individuo as $turma => $dias) {
-    $conteudo_txt .= "Horário da $turma\n";
-    foreach ($dias as $dia => $horarios) {
-        $conteudo_txt .= "$dia:\n";
-        foreach ($horarios as $horario) {
-            $conteudo_txt .= "{$horario['horario']}: {$horario['disciplina']} ({$horario['docente']})\n";
-        }
-    }
-    $conteudo_txt .= "\n";
-}
-$conteudo_txt .= "Tempo de execução: $tempo_execucao segundos\n";
-
-file_put_contents('horario.txt', $conteudo_txt);
-//
-
 
 // Geração do arquivo HTML
 $conteudo_html = "<html><body>";
